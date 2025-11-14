@@ -8,12 +8,22 @@ export default function BudgetsPage(){
   const [budgets, setBudgets] = useState([]);
 
   const load = async () => {
-    const r1 = await api.getCategories(); setCategories(r1.data);
-    const r2 = await api.getBudgets(month); setBudgets(r2.data);
+    try {
+      const r1 = await api.getCategories(); 
+      setCategories(r1.data || []);
+      const r2 = await api.getBudgets(month); 
+      setBudgets(r2.data || []);
+    } catch (err) {
+      console.error("Error loading budgets page:", err);
+      setCategories([]);
+      setBudgets([]);
+    }
   }
+
   useEffect(()=>{ load(); }, [month]);
 
-  const budgetFor = (catId) => budgets.find(b => b.category._id === catId);
+  // SAFE budgetFor
+  const budgetFor = (catId) => budgets.find(b => b?.category?._id === catId) || null;
 
   const setLimit = async (catId, value) => {
     const payload = { category: catId, month, limit: Number(value || 0) };
@@ -21,7 +31,10 @@ export default function BudgetsPage(){
     load();
   }
 
-  const remove = async (id) => { await api.deleteBudget(id); load(); }
+  const remove = async (id) => { 
+    await api.deleteBudget(id); 
+    load(); 
+  }
 
   return (
     <div style={{ padding: 20 }}>
@@ -37,7 +50,11 @@ export default function BudgetsPage(){
             <div key={c._id} style={{ display:'flex', gap:8, alignItems:'center', marginBottom:8 }}>
               <div style={{ width:12, height:12, background: c.color }} />
               <div style={{ flex:1 }}>{c.name}</div>
-              <input type="number" value={b ? b.limit : ''} onChange={e=>setLimit(c._id, e.target.value)} />
+              <input 
+                type="number" 
+                value={b ? b.limit : ''} 
+                onChange={e=>setLimit(c._id, e.target.value)} 
+              />
               {b && <button onClick={()=>remove(b._id)}>Delete</button>}
             </div>
           )

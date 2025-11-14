@@ -11,8 +11,9 @@ export default function ExpenseForm({ onClose, month }) {
   });
   const [msg, setMsg] = useState(null);
 
+  // Load categories on mount
   useEffect(() => {
-    api.getCategories().then(r => setCategories(r.data));
+    api.getCategories().then(r => setCategories(r.data || []));
   }, []);
 
   const submit = async (e) => {
@@ -20,15 +21,30 @@ export default function ExpenseForm({ onClose, month }) {
     setMsg(null);
 
     try {
-      const res = await api.createExpense(form);
-      setMsg(
-        res.data.withinBudget
-          ? { type: 'success', text: 'Within budget' }
-          : { type: 'error', text: 'Over budget' }
-      );
+      // Save the expense
+      await api.createExpense({
+        category: form.category,
+        amount: Number(form.amount),
+        date: form.date
+      });
 
-      // Close modal after 1 second
-      setTimeout(() => onClose(), 1000);
+      // Fetch latest monthly report for selected month
+      const report = await api.monthlyReport(form.date.slice(0, 7)); // YYYY-MM
+      const row = report.data.data.find(r => r.category._id === form.category);
+
+      const spent = row?.spent || 0;
+      const limit = row?.limit ?? null;
+      const remaining = limit !== null ? limit - spent : null;
+
+      setMsg({
+        type: remaining !== null && remaining < 0 ? 'error' : 'success',
+        text: remaining !== null && remaining < 0
+          ? `Over budget by ${Math.abs(remaining)}`
+          : 'Within budget'
+      });
+
+      // Close modal after 1.5 seconds
+      setTimeout(() => onClose(), 1500);
 
     } catch (err) {
       setMsg({ type: 'error', text: err.response?.data?.message || 'Error' });
@@ -88,12 +104,9 @@ export default function ExpenseForm({ onClose, month }) {
 
           <div style={{ marginTop: 12 }}>
             <button type="submit">Save</button>
-            <button type="button" onClick={onClose} style={{ marginLeft: 8 }}>
-              Cancel
-            </button>
+            <button type="button" onClick={onClose} style={{ marginLeft: 8 }}>Cancel</button>
           </div>
         </form>
-
       </div>
     </div>
   );
