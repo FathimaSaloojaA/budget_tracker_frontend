@@ -8,8 +8,8 @@ It communicates with a backend API to manage expenses, budgets, and reports.
 ## 🌐 Live Demo
 
 You can access the live app here:  
-**Frontend (Website):** [https://budget-tracker-frontend-84lg.vercel.app](https://your-frontend-live-url.com)  
-**Backend (API):** [https://budget-tracker-backend-1-crqq.onrender.com/api](https://your-backend-live-url.com/api)
+**Frontend (Website):** [budget-tracker-frontend-rosy.vercel.app](https://your-frontend-live-url.com)  
+**Backend (API):** [https://budget-tracker-backend-rroy.onrender.com/api](https://your-backend-live-url.com/api)
 
 ---
 
