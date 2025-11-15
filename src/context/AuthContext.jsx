@@ -1,3 +1,4 @@
+
 import React, { createContext, useState, useEffect } from 'react';
 
 export const AuthContext = createContext();
@@ -13,17 +14,32 @@ export function AuthProvider({ children }) {
     else localStorage.removeItem('user');
   }, [user]);
 
+  // Multi-tab logout sync
+  useEffect(() => {
+    const handleStorage = (e) => {
+      if (e.key === 'logout') {
+        setUser(null);
+        window.location.href = '/login'; // redirect
+      }
+    };
+    window.addEventListener('storage', handleStorage);
+    return () => window.removeEventListener('storage', handleStorage);
+  }, []);
+
   const login = ({ token, user }) => {
     localStorage.setItem('token', token);
     setUser(user);
-  }
-  
+  };
+
   const logout = () => {
-  localStorage.removeItem('token');
-  localStorage.removeItem('user');
-  setUser(null);
-  window.location.href = "/login";   // 👈 force redirect
-}
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+
+    // Trigger logout event in other tabs
+    localStorage.setItem('logout', Date.now());
+    setUser(null);
+    window.location.href = '/login';
+  };
 
   return (
     <AuthContext.Provider value={{ user, login, logout }}>

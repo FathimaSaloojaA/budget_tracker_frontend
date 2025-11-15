@@ -3,7 +3,7 @@ import api from '../api/api';
 import ExpenseForm from '../components/ExpenseForm';
 import CategoryCard from '../components/CategoryCard';
 import dayjs from 'dayjs';
-import './Dashboard.css'; // import the CSS we created
+import './Dashboard.css'; 
 
 export default function Dashboard({ openExpense, setOpenExpense }) {
 
@@ -14,7 +14,7 @@ export default function Dashboard({ openExpense, setOpenExpense }) {
   const [report, setReport] = useState([]);
   const [refresh, setRefresh] = useState(0);
 
-  // NEW UI STATES
+  
   const [search, setSearch] = useState("");
   const [filterCat, setFilterCat] = useState("all");
   const [sortBy, setSortBy] = useState("default");
@@ -52,7 +52,7 @@ export default function Dashboard({ openExpense, setOpenExpense }) {
   const getBudgetFor = (catId) =>
     budgets.find(b => b?.category?._id === catId) || null;
 
-  // SUMMARY
+  
   const totals = report.reduce((acc, r) => {
     acc.spent += r.spent;
     acc.budget += r.limit != null ? r.limit : 0;
@@ -60,7 +60,7 @@ export default function Dashboard({ openExpense, setOpenExpense }) {
     return acc;
   }, { spent: 0, budget: 0, remaining: 0 });
 
-  // FILTERING + SEARCH + SORT LOGIC
+  
   let filtered = [...categories];
 
   if (search)
@@ -101,8 +101,11 @@ export default function Dashboard({ openExpense, setOpenExpense }) {
 
   return (
     <div className="dashboard-container">
+         <div className="dashboard-header">
+    <h1>Dashboard</h1>
+  </div>
 
-      {/* SUMMARY CARDS */}
+      
       <div className="summary-cards">
         <div className="dash-card blue">
           <h3>Total Spent</h3>
@@ -125,13 +128,13 @@ export default function Dashboard({ openExpense, setOpenExpense }) {
         </div>
       </div>
 
-      {/* QUICK STATS */}
+      
       <div className="quick-stats">
         <div className="chip">Total Categories: {categories.length}</div>
         <div className="chip">Expenses This Month: {expenses.length}</div>
       </div>
 
-      {/* TOP CONTROLS: Search / Filter / Sort */}
+      
       <div className="dashboard-controls">
         <input
           type="text"
@@ -162,7 +165,7 @@ export default function Dashboard({ openExpense, setOpenExpense }) {
         />
       </div>
 
-      {/* CATEGORY CARDS */}
+      
       <div className="category-grid">
         {filtered.map(cat => (
           <CategoryCard

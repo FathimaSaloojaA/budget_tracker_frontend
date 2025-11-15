@@ -5,9 +5,8 @@ import ExpenseForm from '../components/ExpenseForm';
 import dayjs from 'dayjs';
 import './AppLayout.css';
 
-
 export default function AppLayout() {
-  const { logout } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
   const [openExpense, setOpenExpense] = useState(false);
   const [month] = useState(dayjs().format('YYYY-MM'));
 
@@ -16,6 +15,11 @@ export default function AppLayout() {
       
       {/* Desktop Sidebar */}
       <aside className="sidebar">
+        {/* Greeting */}
+        <div className="sidebar-greeting">
+          Hi, {user?.name || "User"} 👋
+        </div>
+
         <div className="sidebar-top">
           <button
             onClick={() => setOpenExpense(true)}
@@ -43,6 +47,7 @@ export default function AppLayout() {
 
       {/* Mobile navbar */}
       <nav className="mobile-nav">
+        <span className="mobile-greeting">Hi, {user?.name || "User"} 👋</span>
         <NavLink to="/" end>Dashboard</NavLink>
         <button onClick={() => setOpenExpense(true)}>+ Expense</button>
         <NavLink to="/reports">Reports</NavLink>
@@ -52,105 +57,35 @@ export default function AppLayout() {
 
       {/* Expense Modal */}
       {openExpense && (
-  <ExpenseForm
-    onClose={() => setOpenExpense(false)}
-    month={month}
-    onSuccess={() => {
-      // 🔥 REFRESH the dashboard by reloading the route
-      window.dispatchEvent(new CustomEvent("expense-added"));
-    }}
-  />
-)}
-
+        <ExpenseForm
+          onClose={() => setOpenExpense(false)}
+          month={month}
+          onSuccess={() => {
+            window.dispatchEvent(new CustomEvent("expense-added"));
+          }}
+        />
+      )}
 
       {/* Styles */}
       <style>{`
-        .app-layout {
-          display: flex;
-          min-height: 100vh;
-        }
+        .app-layout { display: flex; min-height: 100vh; }
 
-        /* Sidebar */
-        .sidebar {
-          display: flex;
-          flex-direction: column;
-          width: 220px;
-          background: #f5f5f5;
-          padding: 20px;
-          border-right: 1px solid #ddd;
-        }
+        .sidebar { display: flex; flex-direction: column; width: 220px; background: #f5f5f5; padding: 20px; border-right: 1px solid #ddd; }
+        .sidebar-greeting { font-weight: 600; font-size: 16px; color: #1f3c59; margin-bottom: 16px; }
+        .sidebar-top { margin-bottom: 20px; }
+        .add-expense-btn { background: #1976d2; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; margin-bottom: 20px; }
+        .nav-links { display: flex; flex-direction: column; gap: 12px; }
+        .nav-link { text-decoration: none; color: #333; font-weight: 500; }
+        .sidebar-bottom { margin-top: auto; }
+        .nav-button.logout-button { background: #e53935; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; width: 100%; }
 
-        .sidebar-top {
-          margin-bottom: 20px;
-        }
+        .main-content { flex: 1; padding: 20px; }
 
-        .add-expense-btn {
-          background: #1976d2;
-          color: white;
-          border: none;
-          padding: 8px 12px;
-          border-radius: 4px;
-          cursor: pointer;
-          margin-bottom: 20px;
-        }
+        .mobile-nav { display: none; justify-content: space-around; align-items: center; padding: 12px 0; border-top: 1px solid #ccc; position: fixed; bottom: 0; width: 100%; background: #fff; z-index: 1000; gap: 6px; flex-wrap: wrap; }
+        .mobile-greeting { width: 100%; text-align: center; font-weight: 600; color: #1f3c59; }
 
-        .nav-links {
-          display: flex;
-          flex-direction: column;
-          gap: 12px;
-        }
-
-        .nav-link {
-          text-decoration: none;
-          color: #333;
-          font-weight: 500;
-        }
-
-        .sidebar-bottom {
-          margin-top: auto;
-        }
-
-        .nav-button.logout-button {
-          background: #e53935;
-          color: white;
-          border: none;
-          padding: 8px 12px;
-          border-radius: 4px;
-          cursor: pointer;
-          width: 100%;
-        }
-
-        /* Main content */
-        .main-content {
-          flex: 1;
-          padding: 20px;
-        }
-
-        /* Mobile navbar */
-        .mobile-nav {
-          display: none;
-          justify-content: space-around;
-          padding: 12px 0;
-          border-top: 1px solid #ccc;
-          position: fixed;
-          bottom: 0;
-          width: 100%;
-          background: #fff;
-          z-index: 1000;
-        }
-
-        /* Desktop view */
-        @media(min-width: 768px) {
-          .sidebar { display: flex; }
-          .mobile-nav { display: none; }
-        }
-
-        /* Mobile view */
-        @media(max-width: 767px) {
-          .sidebar { display: none; }
-          .main-content { margin-bottom: 60px; }
-          .mobile-nav { display: flex; }
-        }
+        @media(min-width: 768px) { .sidebar { display: flex; } .mobile-nav { display: none; } }
+        @media(max-width: 767px) { .sidebar { display: none; } .main-content { margin-bottom: 80px; } .mobile-nav { display: flex; } }
       `}</style>
     </div>
   );

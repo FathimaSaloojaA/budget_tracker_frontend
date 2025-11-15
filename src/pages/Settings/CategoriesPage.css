@@ -102,6 +102,19 @@
   font-size: 14px;
   transition: all 0.2s ease;
 }
+.color-picker {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.color-preview {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  transition: all 0.2s ease;
+}
 
 .category-actions button:first-child {
   background: #5dade2;

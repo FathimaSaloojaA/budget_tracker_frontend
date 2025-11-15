@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import api from '../../api/api';
 import dayjs from 'dayjs';
+import Swal from 'sweetalert2';
 import './BudgetPage.css';
 
 export default function BudgetsPage() {
@@ -8,7 +9,6 @@ export default function BudgetsPage() {
   const [categories, setCategories] = useState([]);
   const [budgets, setBudgets] = useState([]);
   const [inputs, setInputs] = useState({});
-  const [msg, setMsg] = useState({});
 
   const load = async () => {
     try {
@@ -30,6 +30,7 @@ export default function BudgetsPage() {
 
     } catch (err) {
       console.error("Error loading budgets page:", err);
+      Swal.fire('Error', 'Failed to load budgets', 'error');
       setCategories([]);
       setBudgets([]);
       setInputs({});
@@ -39,26 +40,43 @@ export default function BudgetsPage() {
   useEffect(() => { load(); }, [month]);
 
   const saveBudget = async (catId) => {
+    const value = Number(inputs[catId]);
+    if (isNaN(value) || value < 0) {
+      Swal.fire('Validation', 'Budget must be a non-negative number', 'warning');
+      return;
+    }
+
     try {
-      const value = Number(inputs[catId] || 0);
       const payload = { category: catId, month, limit: value };
       await api.upsertBudget(payload);
-      setMsg(prev => ({ ...prev, [catId]: 'Budget saved ✅' }));
+      Swal.fire('Saved', 'Budget saved successfully ✅', 'success');
       load();
     } catch (err) {
       console.error(err);
-      setMsg(prev => ({ ...prev, [catId]: 'Error saving budget ❌' }));
+      Swal.fire('Error', 'Failed to save budget ❌', 'error');
     }
   };
 
-  const remove = async (id, catId) => { 
-    try {
-      await api.deleteBudget(id); 
-      setMsg(prev => ({ ...prev, [catId]: 'Budget removed ❌' }));
-      load(); 
-    } catch (err) {
-      console.error(err);
-      setMsg(prev => ({ ...prev, [catId]: 'Error removing budget ❌' }));
+  const remove = async (id, catId) => {
+    const result = await Swal.fire({
+      title: 'Are you sure?',
+      text: 'This will delete the budget for this category',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#e74c3c',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, delete it!'
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await api.deleteBudget(id);
+        Swal.fire('Deleted', 'Budget removed ❌', 'success');
+        load();
+      } catch (err) {
+        console.error(err);
+        Swal.fire('Error', 'Failed to remove budget ❌', 'error');
+      }
     }
   };
 
@@ -73,7 +91,7 @@ export default function BudgetsPage() {
         <input type="month" value={month} onChange={e => setMonth(e.target.value)} />
       </div>
 
-      <div>
+      <div className="budget-list">
         {categories.map(c => {
           const b = budgetFor(c._id);
           return (
@@ -85,19 +103,13 @@ export default function BudgetsPage() {
                 type="number" 
                 className="budget-input"
                 value={inputs[c._id] || ''} 
-                onChange={e => setInputs(prev => ({ ...prev, [c._id]: e.target.value }))}
+                onChange={e => setInputs(prev => ({ ...prev, [c._id]: e.target.value }))} 
               />
 
               <div className="budget-actions">
                 <button onClick={() => saveBudget(c._id)}>Save</button>
                 {b && <button onClick={() => remove(b._id, c._id)}>Delete</button>}
               </div>
-
-              {msg[c._id] && (
-                <span className={`budget-msg ${msg[c._id].includes('❌') ? 'error' : 'success'}`}>
-                  {msg[c._id]}
-                </span>
-              )}
             </div>
           );
         })}

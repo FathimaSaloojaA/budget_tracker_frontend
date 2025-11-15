@@ -6,7 +6,7 @@ export default function SettingsLayout() {
     <div className="settings-layout">
       <h2>Settings</h2>
 
-      {/* Tab / Menu for child pages */}
+     
       <div className="settings-tabs">
         <NavLink to="categories" className={({ isActive }) => isActive ? 'tab active' : 'tab'}>Categories</NavLink>
         <NavLink to="budgets" className={({ isActive }) => isActive ? 'tab active' : 'tab'}>Budgets</NavLink>
