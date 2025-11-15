@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { FiCreditCard } from 'react-icons/fi'; // same professional logo
 import api from '../api/api';
 import { AuthContext } from '../context/AuthContext';
 import './AuthPage.css';
@@ -42,7 +43,15 @@ export default function AuthPage() {
 
   return (
     <div className="auth-container">
+      
+      {/* App Branding/Header */}
+      <div className="auth-header">
+        <FiCreditCard className="auth-logo" />
+        <span className="auth-app-name">Expensio</span>
+      </div>
+
       <h2>{tab === 'login' ? 'Log In' : 'Sign Up'}</h2>
+
       <div className="tab-buttons">
         <button onClick={() => setTab('login')} disabled={tab === 'login'}>
           Login
@@ -92,6 +101,26 @@ export default function AuthPage() {
 
         <button type="submit">{tab === 'login' ? 'Log In' : 'Create Account'}</button>
       </form>
+
+      {/* Inline styles for header branding */}
+      <style>{`
+        .auth-header {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
+          margin-bottom: 20px;
+        }
+        .auth-logo {
+          font-size: 36px;
+          color: #5dade2;
+        }
+        .auth-app-name {
+          font-size: 28px;
+          font-weight: 700;
+          color: #1f3c59;
+        }
+      `}</style>
     </div>
   );
 }

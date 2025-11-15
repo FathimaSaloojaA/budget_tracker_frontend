@@ -133,6 +133,16 @@
     display: none;
   }
 }
+.sidebar-app-name, .mobile-app-name {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1f3c59;
+  margin-bottom: 8px;
+  text-align: center;
+}
+.mobile-app-name {
+  width: 100%;
+}
 
 @media (max-width: 767px) {
   .sidebar {
