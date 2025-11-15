@@ -41,7 +41,7 @@ npm install
 
 Create a .env file in the root of the frontend project:
 
-VITE_API_BASE=http://localhost:5000/api
+
 
 
 Replace with your backend URL if using a deployed backend.
