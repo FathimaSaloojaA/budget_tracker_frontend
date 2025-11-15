@@ -122,6 +122,16 @@ body {
   gap: 16px;
   margin-top: 10px;
 }
+.empty-state {
+  text-align: center;
+  margin-top: 80px;
+  color: #3e6a85;
+  font-size: 18px;
+  padding: 20px;
+  background: #f0f4f8;
+  border-radius: 10px;
+}
+
 
 /* RESPONSIVE */
 @media (max-width: 768px) {
