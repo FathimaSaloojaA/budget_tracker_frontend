@@ -31,15 +31,24 @@ export function AuthProvider({ children }) {
     setUser(user);
   };
 
-  const logout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+//   const logout = () => {
+//     localStorage.removeItem('token');
+//     localStorage.removeItem('user');
 
-    // Trigger logout event in other tabs
-    localStorage.setItem('logout', Date.now());
-    setUser(null);
-    window.location.href = '/login';
-  };
+//     // Trigger logout event in other tabs
+//     localStorage.setItem('logout', Date.now());
+//     setUser(null);
+//     window.location.href = '/login';
+//   };
+const logout = (navigate) => {
+  localStorage.removeItem('token');
+  localStorage.removeItem('user');
+  localStorage.setItem('logout', Date.now());
+  setUser(null);
+  if (navigate) navigate('/auth'); // SPA routing
+  else window.location.href = '/auth'; // fallback
+};
+
 
   return (
     <AuthContext.Provider value={{ user, login, logout }}>
