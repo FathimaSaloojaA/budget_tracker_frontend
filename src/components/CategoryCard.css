@@ -1,0 +1,68 @@
+/* Category Card Container */
+.category-card {
+  background: #fff;
+  padding: 16px 18px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: default;
+}
+
+.category-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+}
+
+/* Header: Category name + color */
+.category-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  font-weight: 600;
+  font-size: 16px;
+  color: #3e6a85;
+}
+
+.category-color {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+}
+
+/* Progress Bar */
+.progress-bar {
+  width: 100%;
+  height: 12px;
+  background: #f0f0f0;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #5dade2, #3e6a85);
+  border-radius: 10px;
+  transition: width 0.5s ease, background 0.3s ease;
+}
+
+.progress-fill.over-budget {
+  background: linear-gradient(90deg, #e74c3c, #c0392b);
+}
+
+/* Stats Text */
+.category-stats {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1c1c1c;
+}
+
+.category-stats small {
+  font-weight: 400;
+}
+
+.over-budget {
+  color: #e74c3c;
+  font-weight: 600;
+}

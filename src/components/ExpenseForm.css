@@ -1,0 +1,122 @@
+/* Overlay */
+.expense-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* Modal Container */
+.expense-modal {
+  background: #fff;
+  width: 100%;
+  max-width: 440px;
+  padding: 24px 28px;
+  border-radius: 12px;
+  box-shadow: 0 12px 28px rgba(0,0,0,0.15);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Modal Header */
+.expense-modal h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 22px;
+  font-weight: 700;
+  color: #3e6a85;
+  text-align: center;
+}
+
+/* Form Fields */
+.expense-modal form div {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+
+.expense-modal label {
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #1c1c1c;
+}
+
+.expense-modal input,
+.expense-modal select {
+  padding: 10px 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.expense-modal input:focus,
+.expense-modal select:focus {
+  outline: none;
+  border-color: #5dade2;
+  box-shadow: 0 0 6px rgba(93, 173, 226, 0.5);
+}
+
+/* Feedback message */
+.expense-msg {
+  font-weight: 500;
+  margin-top: 6px;
+  text-align: center;
+}
+
+.expense-msg.error {
+  color: #e74c3c;
+}
+
+.expense-msg.success {
+  color: #27ae60;
+}
+
+/* Buttons */
+.expense-modal button {
+  padding: 12px 18px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.expense-modal button[type="submit"] {
+  background: #3e6a85;
+  color: #fff;
+}
+
+.expense-modal button[type="submit"]:hover {
+  background: #5dade2;
+  transform: translateY(-2px);
+}
+
+.expense-modal button[type="button"] {
+  background: #ccc;
+  color: #1c1c1c;
+  margin-left: 10px;
+}
+
+.expense-modal button[type="button"]:hover {
+  background: #aaa;
+  transform: translateY(-2px);
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .expense-modal {
+    padding: 20px;
+    width: 90%;
+  }
+
+  .expense-modal h3 {
+    font-size: 20px;
+  }
+}

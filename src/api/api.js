@@ -25,6 +25,7 @@ export default {
   deleteBudget: (id) => instance.delete(`/budgets/${id}`),
   // expenses
   getExpenses: (params) => instance.get('/expenses', { params }),
+  listExpenses: () => instance.get('/expenses'),
   createExpense: (data) => instance.post('/expenses', data),
   // reports
  monthlyReport: (month) => instance.get(`/report/monthly?month=${month}`)

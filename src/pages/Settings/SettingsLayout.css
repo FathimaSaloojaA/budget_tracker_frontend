@@ -1,0 +1,76 @@
+.settings-layout {
+  padding: 20px;
+  font-family: 'Inter', sans-serif;
+}
+
+.settings-layout h2 {
+  margin-bottom: 16px;
+  color: #1f3c59;
+}
+
+.settings-tabs {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+  border-bottom: 2px solid #e0e0e0;
+
+  /* Responsive scroll */
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch; /* smooth scrolling for iOS */
+  scrollbar-width: thin; /* Firefox */
+}
+
+.settings-tabs::-webkit-scrollbar {
+  height: 6px;
+}
+
+.settings-tabs::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.2);
+  border-radius: 3px;
+}
+
+.tab {
+  padding: 8px 16px;
+  cursor: pointer;
+  text-decoration: none;
+  color: #555;
+  font-weight: 500;
+  border-radius: 6px 6px 0 0;
+  transition: background 0.2s ease, color 0.2s ease;
+  flex-shrink: 0; /* prevent shrinking on small screens */
+}
+
+.tab:hover {
+  background: #e0f0ff;
+}
+
+.tab.active {
+  background: #5dade2;
+  color: #fff;
+  font-weight: 600;
+}
+
+.settings-content {
+  padding: 16px 0;
+  background: #f9f9f9;
+  border-radius: 8px;
+  min-height: 200px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+/* Mobile tweaks */
+@media (max-width: 767px) {
+  .settings-tabs {
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .tab {
+    padding: 6px 12px;
+    font-size: 14px;
+  }
+
+  .settings-content {
+    padding: 12px 0;
+  }
+}

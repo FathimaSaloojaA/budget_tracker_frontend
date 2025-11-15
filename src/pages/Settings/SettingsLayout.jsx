@@ -1,18 +1,20 @@
 import { NavLink, Outlet } from "react-router-dom";
+import './SettingsLayout.css';
 
 export default function SettingsLayout() {
   return (
-    <div style={{ padding: 20 }}>
+    <div className="settings-layout">
       <h2>Settings</h2>
 
       {/* Tab / Menu for child pages */}
-      <div style={{ display: 'flex', gap: 20, marginBottom: 20 }}>
-        <NavLink to="categories" style={({isActive}) => ({ fontWeight: isActive ? 'bold' : 'normal'})}>Categories</NavLink>
-        <NavLink to="budgets" style={({isActive}) => ({ fontWeight: isActive ? 'bold' : 'normal'})}>Budgets</NavLink>
-        {/* Optional: Expenses */}
+      <div className="settings-tabs">
+        <NavLink to="categories" className={({ isActive }) => isActive ? 'tab active' : 'tab'}>Categories</NavLink>
+        <NavLink to="budgets" className={({ isActive }) => isActive ? 'tab active' : 'tab'}>Budgets</NavLink>
       </div>
 
-      <Outlet />
+      <div className="settings-content">
+        <Outlet />
+      </div>
     </div>
   );
 }

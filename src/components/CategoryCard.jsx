@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import api from '../api/api';
+import './CategoryCard.css';
 
 export default function CategoryCard({ category, budget, month, refresh }) {
   const [stats, setStats] = useState({
@@ -10,15 +11,13 @@ export default function CategoryCard({ category, budget, month, refresh }) {
   useEffect(() => {
     async function load() {
       try {
-        // Always load monthly report
         const rep = await api.monthlyReport(month);
-
         const row = rep.data.data.find(r => r.category._id === category._id);
 
         if (row) {
           setStats({
             spent: row.spent,
-            limit: row.limit // may be null if no budget
+            limit: row.limit
           });
         } else {
           setStats({
@@ -26,7 +25,6 @@ export default function CategoryCard({ category, budget, month, refresh }) {
             limit: budget ? budget.limit : null
           });
         }
-
       } catch (err) {
         setStats({
           spent: 0,
@@ -46,33 +44,28 @@ export default function CategoryCard({ category, budget, month, refresh }) {
     stats.limit == null ? null : stats.limit - stats.spent;
 
   return (
-    <div style={{ border: '1px solid #ddd', padding: 12, borderRadius: 6 }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <div><strong>{category.name}</strong></div>
-        <div style={{ width: 18, height: 18, background: category.color, borderRadius: 4 }} />
+    <div className="category-card">
+      <div className="category-header">
+        <strong>{category.name}</strong>
+        <div className="category-color" style={{ background: category.color || '#5dade2' }} />
       </div>
 
-      <div style={{ height: 10, background: '#f0f0f0', marginTop: 12, borderRadius: 6 }}>
+      <div className="progress-bar">
         <div
-          style={{
-            width: `${percent}%`,
-            height: '100%',
-            background: percent > 100 ? 'red' : '#1976d2',
-            borderRadius: 6
-          }}
+          className={`progress-fill ${percent > 100 ? 'over-budget' : ''}`}
+          style={{ width: `${percent}%` }}
         />
       </div>
 
-      <div style={{ marginTop: 8 }}>
+      <div className="category-stats">
         {stats.limit == null ? (
-          <small>Spent: {stats.spent}</small>
+          <small>Spent: ₹{stats.spent}</small>
         ) : (
           <div>
-            Spent: {stats.spent} / {stats.limit} |
-            Remaining:{' '}
-            {remaining < 0
-              ? <span style={{ color: 'red' }}>OVER {Math.abs(remaining)}</span>
-              : remaining}
+            Spent: ₹{stats.spent} / ₹{stats.limit} | 
+            Remaining: {remaining < 0 ? (
+              <span className="over-budget">OVER ₹{Math.abs(remaining)}</span>
+            ) : `₹${remaining}`}
           </div>
         )}
       </div>

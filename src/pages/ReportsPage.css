@@ -1,0 +1,100 @@
+.reports-page {
+  padding: 20px;
+  font-family: 'Inter', sans-serif;
+}
+
+.reports-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.btn-primary {
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover { background: #1565c0; }
+
+.btn-secondary {
+  background: #f0f0f0;
+  color: #333;
+  border: 1px solid #ccc;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover { background: #e0e0e0; }
+
+.summary-cards {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.summary-cards .card {
+  flex: 1;
+  padding: 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease;
+}
+
+.summary-cards .card:hover {
+  transform: translateY(-2px);
+}
+
+.card.spent { background: #e3f2fd; color: #1565c0; }
+.card.budget { background: #fff3e0; color: #ef6c00; }
+.card.remaining { background: #e8f5e9; color: #2e7d32; }
+.card.remaining.over { background: #ffebee; color: #c62828; }
+
+.chart-container {
+  width: 100%;
+  height: 400px;
+  margin-bottom: 24px;
+}
+
+.tooltip-card {
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 8px;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.within-budget { color: #2e7d32; }
+.over-budget { color: #c62828; }
+
+.report-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+  font-size: 14px;
+}
+
+.report-table th, .report-table td {
+  padding: 10px;
+  text-align: left;
+}
+
+.report-table th {
+  border-bottom: 2px solid #ccc;
+}
+
+.report-table tbody tr:nth-child(even) { background: #f9f9f9; }
+.report-table tbody tr:hover { background: #e0f7fa; }
+
+.report-table td.over-budget { color: #c62828; font-weight: 600; }
+
+.no-data, .loading { text-align: center; font-style: italic; margin-top: 20px; }
